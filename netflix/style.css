@@ -16,10 +16,10 @@
 * {
     padding: 0px;
     margin: 0px;
+    box-sizing: content-box;
 }
 #fundo {
     background-color: rgba(0, 0, 0, 0.863);
-    height: 745px;
 }
 header {
     background-image: url('./imagens/fundo_netflix_g.jpg');
@@ -27,7 +27,6 @@ header {
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
-    height: 745px;
 }
 #logo {
     width: 1200px;
