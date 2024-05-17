@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudo dos JS</title>
+    <style>
+        body  {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+        .container1, .container2 {
+            width: 30%;
+            height: 20rem;
+            border: 2px solid black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .cursos  {
+            border-radius: 10px;
+            background-color: aqua;
+            padding: 1rem;
+            width: 30%;
+            margin: .5rem;
+        }
+        .destaque {
+            background-color: chartreuse;
+        }
+    </style>
+</head>
+<body>
+    <div class="container1">
+        <div id="c1" class="cursos c1">HTML</div>
+        <div id="c2" class="cursos c1">CSS</div>
+        <div id="c3" class="cursos c2">JS</div>
+        <div id="c4" class="cursos c3">Python</div>
+        <div id="c5" class="cursos c3">C++</div>
+    </div>
+    <button class="botao">Copiar -></button>
+    <div class="container2"></div>
+    
+    <script src="DOM.js"></script>
+</body>
+</html>
