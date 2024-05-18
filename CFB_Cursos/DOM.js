@@ -9,15 +9,24 @@
 // }) // evento, acao (Pode usar as funções para colocar as ações)
 // }) // Evento de clcick em todos
 
-const elementoSelecionado = [...document.querySelectorAll('.cursos')]
-const botao = document.querySelector('.botao')
-const div2 = document.querySelector('.container2')
-
-elementoSelecionado.map((el)=>{
-    el.addEventListener('click', (evt)=>{
-        console.log(evt.target.id)
-    })
-    botao.addEventListener('click', (evt)=>{
-    div2.appendChild(evt.target.id)})
-})
-
+// ___________ Desafio de Transferencia ________
+// const elementoSelecionado = [...document.querySelectorAll('.cursos')]
+// const botao = document.querySelector('.botao')
+// const div2 = document.querySelector('.container2')
+// const div1 = document.querySelector('.container1')
+// elementoSelecionado.map((el)=>{
+//     el.addEventListener('click', (evento)=>{
+//         el.classList.toggle('destaque')
+//         console.log(el)
+//     })
+// })
+// botao.addEventListener('click', ()=>{
+//     const cursoSelecionados = [...document.querySelectorAll('.destaque')]
+//     const cursoNaoSelecionados = [...document.querySelectorAll('.cursos:not(.destaque)')]
+//     cursoSelecionados.map((elemento) =>{
+//         div2.appendChild(elemento)
+//     })
+//     cursoNaoSelecionados.map((elemento)=>{
+//         div1.appendChild(elemento)
+//     })
+// })
