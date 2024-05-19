@@ -1,0 +1,71 @@
+* {
+    padding: 0%;
+    margin: 0%;
+}
+div.container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: darkslategray;
+}
+div.conteudo {
+    border-radius: 50%;
+    border: 3px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.cont1 {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    animation-name: aumenta;
+    animation-duration: 2s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    background-color: cadetblue;
+    rotate: 0;
+
+}
+.cont2 {
+    width: 150px;
+    height: 150px;
+    position: relative;
+    animation-name: pular;
+    animation-duration: 1s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    background-color: indigo;
+}
+.cont3 {
+    width:100px;
+    height: 100px;
+    position: relative;
+    animation-name: pular;
+    animation-duration: .5s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    background-color: black;
+}
+
+@keyframes pular {
+    0%{
+        bottom: 0%;
+        transform: rotateX(0deg);
+    }
+    100%{
+        bottom: 80%;
+        transform: rotateX(60deg);
+    }
+}
+@keyframes aumenta {
+    0%{
+        transform: scale(90%);
+        rotate: 0;
+    }
+    100%{
+        transform: scale(110%);
+        rotate: 360deg;
+    }
+}

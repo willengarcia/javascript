@@ -30,3 +30,33 @@
 //         div1.appendChild(elemento)
 //     })
 // })
+
+// const div1 = document.querySelector('.container1')
+// const btn = [...document.querySelectorAll('.cursos')]
+// console.log(div1.hasChildNodes())
+// console.log(btn.children)
+// let c = div1.children.length > 0 ? 'Possui Filhos':'Não Possui Filhos'
+// console.log(div1.firstElementChild.innerHTML = 'tese') // Alterando o primeiro elemento
+// console.log(div1.children[2].innerHTML = 'tese') // Alterando os elementos irmaos por indice
+// console.log(btn[0].parentElement.parentElement) // Pegando os avós
+
+cursos = ['html', 'css', 'js', 'php', 'mysql']
+const btn = document.querySelector('.botao')
+const elementos = [...document.querySelectorAll('.cursos')]
+cursos.map((elemento, chave)=>{
+    const novoElemento = document.createElement('div')
+    const caixa = document.querySelector('.container1')
+    novoElemento.addEventListener('click', (elemento)=>{
+        caixa.removeChild(novoElemento)
+    }) // Muito util para fazer lixeiras
+    caixa.appendChild(novoElemento)
+    novoElemento.innerHTML = elemento
+    novoElemento.setAttribute('class', `cursos c${chave}`)
+    novoElemento.setAttribute('id', chave)
+}) // Colocando os elementos Automaticamente
+
+// const caixa = document.querySelector('.container1')
+// // Adicionando, Alterando, Excluindo Elementos
+// caixa.appendChild(novoElemento)
+// novoElemento.innerHTML = 'Teste'
+// novoElemento.setAttribute('class', 'cursos') // Atributo, Valor - colocar id, class...
