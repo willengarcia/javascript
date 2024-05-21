@@ -40,23 +40,29 @@
 // console.log(div1.children[2].innerHTML = 'tese') // Alterando os elementos irmaos por indice
 // console.log(btn[0].parentElement.parentElement) // Pegando os avós
 
-cursos = ['html', 'css', 'js', 'php', 'mysql']
-const btn = document.querySelector('.botao')
-const elementos = [...document.querySelectorAll('.cursos')]
-cursos.map((elemento, chave)=>{
-    const novoElemento = document.createElement('div')
-    const caixa = document.querySelector('.container1')
-    novoElemento.addEventListener('click', (elemento)=>{
-        caixa.removeChild(novoElemento)
-    }) // Muito util para fazer lixeiras
-    caixa.appendChild(novoElemento)
-    novoElemento.innerHTML = elemento
-    novoElemento.setAttribute('class', `cursos c${chave}`)
-    novoElemento.setAttribute('id', chave)
-}) // Colocando os elementos Automaticamente
+// cursos = ['html', 'css', 'js', 'php', 'mysql']
+// const btn = document.querySelector('.botao')
+// const elementos = [...document.querySelectorAll('.cursos')]
+// cursos.map((elemento, chave)=>{
+//     const novoElemento = document.createElement('div')
+//     const caixa = document.querySelector('.container1')
+//     novoElemento.addEventListener('click', (elemento)=>{
+//         caixa.removeChild(novoElemento)
+//     }) // Muito util para fazer lixeiras
+//     caixa.appendChild(novoElemento)
+//     novoElemento.innerHTML = elemento
+//     novoElemento.setAttribute('class', `cursos c${chave}`)
+//     novoElemento.setAttribute('id', chave)
+// }) // Colocando os elementos Automaticamente
 
 // const caixa = document.querySelector('.container1')
 // // Adicionando, Alterando, Excluindo Elementos
 // caixa.appendChild(novoElemento)
 // novoElemento.innerHTML = 'Teste'
 // novoElemento.setAttribute('class', 'cursos') // Atributo, Valor - colocar id, class...
+ 
+// Metodo FILTER
+const idade = [12,54,20,35,15,18]
+const maiorIdade = idade.filter((valor)=>{
+    return valor>=18?console.log(`Maior de idade: ${valor}`):console.log(`Menor de idade: ${valor}`)
+}) // Recebe valor, indice e o array

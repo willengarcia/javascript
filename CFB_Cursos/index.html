@@ -10,6 +10,7 @@
             flex-direction: row;
             align-items: center;
             justify-content: center;
+            justify-content: space-around;
         }
         .container1, .container2 {
             width: 30%;
@@ -17,14 +18,14 @@
             border: 2px solid black;
             display: flex;
             flex-direction: column;
+            flex-wrap: wrap;
             align-items: center;
             justify-content: center;
         }
-        .cursos  {
+        .botoes  {
             border-radius: 10px;
             background-color: aqua;
             padding: 1rem;
-            width: 30%;
             margin: .5rem;
         }
         .destaque {
@@ -33,16 +34,54 @@
     </style>
 </head>
 <body>
-    <div class="container1">
-        <!-- <div id="c1" class="cursos c1">HTML</div>
+    <div class="container container1">
+        <p>Nome do Curso</p>
+        <button class="botoes ad">Adicionar</button>
+        <button class="botoes re">Remover</button>
+        <button class="botoes se">Selecionado</button>
+    </div>
+    <div class="container container2">
+        <div class="cursos">
+            HTML
+            <input type="radio" name="c" id="html" class="x">
+        </div>
+        <div class="cursos">
+            CSS
+            <input type="radio" name="c" id="css" class="x">
+        </div>
+        <div class="cursos">
+            JavaScript
+            <input type="radio" name="c" id="js" class="x">
+        </div>
+        <div class="cursos">
+            PHP
+            <input type="radio" name="c" id="php" class="x">
+        </div>
+        <div class="cursos">
+            React
+            <input type="radio" name="c" id="react" class="x">
+        </div>
+        <div class="cursos">
+            MySQL
+            <input type="radio" name="c" id="sql" class="x">
+        </div>
+        <div class="cursos">
+            ReactNative
+            <input type="radio" name="c" id="reactnative" class="x">
+        </div>
+    </div>
+    <!-- <div class="container1">
+        <div id="c1" class="cursos c1">HTML</div>
         <div id="c2" class="cursos c1">CSS</div>
         <div id="c3" class="cursos c2">JS</div>
         <div id="c4" class="cursos c3">Python</div>
-        <div id="c5" class="cursos c3">C++</div> -->
+        <div id="c5" class="cursos c3">C++</div>
     </div>
     <button class="botao"><- Copiar -></button>
-    <div class="container2"></div>
+    <div class="container2"></div> -->
+    
     
     <script src="DOM.js"></script>
+    <script src="pratica.js"></script>
 </body>
 </html>
