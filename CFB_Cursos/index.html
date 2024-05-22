@@ -14,13 +14,21 @@
         }
         .container1, .container2 {
             width: 30%;
-            height: 20rem;
+            height: 25rem;
             border: 2px solid black;
             display: flex;
             flex-direction: column;
             flex-wrap: wrap;
             align-items: center;
             justify-content: center;
+        }
+        .cursos {
+            width: 110px;
+            border-radius: 10px;
+            padding: .5rem ;
+            background-color: cadetblue;
+            margin: .5rem auto;
+
         }
         .botoes  {
             border-radius: 10px;
@@ -31,12 +39,18 @@
         .destaque {
             background-color: chartreuse;
         }
+        input{
+            accent-color: red;
+            float: right;
+        }
     </style>
 </head>
 <body>
     <div class="container container1">
         <p>Nome do Curso</p>
-        <button class="botoes ad">Adicionar</button>
+        <input type="text" name="entrada" id="entrada">
+        <button class="botoes adAntes">Adicionar antes</button>
+        <button class="botoes adDepois">Adicionar depois</button>
         <button class="botoes re">Remover</button>
         <button class="botoes se">Selecionado</button>
     </div>
@@ -80,8 +94,7 @@
     <button class="botao"><- Copiar -></button>
     <div class="container2"></div> -->
     
-    
-    <script src="DOM.js"></script>
+    <!-- <script src="DOM.js"></script> -->
     <script src="pratica.js"></script>
 </body>
 </html>
