@@ -1,0 +1,35 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.array {
+    border: 2px solid green;
+    padding: 5px;
+    border-radius: 10px;
+}
+.pesquisa {
+    border: 2px solid blue;
+    padding: 5px;
+    border-radius: 10px;
+}
+.resultado {
+    border: 2px solid red;
+    padding: 5px;
+    border-radius: 10px;
+}
+input {
+    width: 80%;
+    accent-color: pink;
+}
+button {
+    padding: 4px 10px;
+    background-color: rgb(26, 26, 117);
+    color: white;
+    border: none;
+    border-radius: 10px;
+}
