@@ -9,7 +9,28 @@
 </head>
 <body>
     <div id="caixa">
-        
+        <input type="text" class="entrada"></input>
+        <input type="text" class="saida"></input>
+        <div class="botoes">
+            <div class="operadores">
+                <button onclick="calcular('acao', '+')">+</button>
+                <button onclick="calcular('acao', '-')">-</button>
+                <button onclick="calcular('acao', '*')">X</button>
+                <button onclick="calcular('acao', '/')">/</button>
+                <button onclick="calcular('acao', 'del')">DEL</button>
+            </div>
+            <button class="botao" onclick="calcular('valor', 1)">1</button>
+            <button class="botao" onclick="calcular('valor', 2)">2</button>
+            <button class="botao" onclick="calcular('valor', 3)">3</button>
+            <button class="botao" onclick="calcular('valor', 4)">4</button>
+            <button class="botao" onclick="calcular('valor', 5)">5</button>
+            <button class="botao" onclick="calcular('valor', 6)">6</button>
+            <button class="botao" onclick="calcular('valor', 7)">7</button>
+            <button class="botao" onclick="calcular('valor', 8)">8</button>
+            <button class="botao" onclick="calcular('valor', 9)">9</button>
+            <button class="botao" onclick="calcular('valor', 0)">0</button>
+            <button onclick="calcular('acao', '=')" class="igual">=</button>
+        </div>
     </div>
 </body>
 </html>

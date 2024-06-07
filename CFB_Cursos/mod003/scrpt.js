@@ -18,28 +18,42 @@
 //     p.innerHTML = elementos
 //     caixa.appendChild(p)
 // })
-let valores = [1, 2,3,4,5]
-let op = [
-    (valor)=>{
-        let res = 0
-        for(v of valor){
-            res+=v
+// let valores = [1, 2,3,4,5]
+// let op = [
+//     (valor)=>{
+//         let res = 0
+//         for(v of valor){
+//             res+=v
+//         }
+//         return res
+//     },
+//     (valor)=>{
+//         let res = 1
+//         for(v of valor){
+//             res*=v
+//         }
+//         return res
+//     },
+//     (valor)=>{
+//         for(v of valor){
+//             console.log(v)
+//         }
+//     },
+// ]
+// console.log(op[0](valores)) // executanto das funções, indo pelo indice
+// console.log(op[1](valores))
+// console.log(op[2](valores))
+function calcular(opcao, valor){
+    if(opcao == 'acao'){
+        if(valor == '+' || valor == '-' || valor == '*' || valor == '/'){
+            document.querySelector('.entrada').value +=valor
+        }else if(valor === '='){
+            document.querySelector('.saida').value +=eval(document.querySelector('.entrada').value)
+        } else if(valor === 'del'){
+            document.querySelector('.entrada').value = ''
+            document.querySelector('.saida').value = ''
         }
-        return res
-    },
-    (valor)=>{
-        let res = 1
-        for(v of valor){
-            res*=v
-        }
-        return res
-    },
-    (valor)=>{
-        for(v of valor){
-            console.log(v)
-        }
-    },
-]
-console.log(op[0](valores))
-console.log(op[1](valores))
-console.log(op[2](valores))
+    } else if(opcao == 'valor') {
+        document.querySelector('.entrada').value += valor
+    }
+}
