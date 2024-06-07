@@ -36,7 +36,7 @@ p_array.innerHTML = "["+elementosArray+"]"
 //     console.log(retorno)
 // })
 
-//Metodo SOME:
+// Metodo SOME:
 // b_botao.addEventListener('click', (evt)=>{
 //     p_resultado.innerHTML = 'Não conforme'
 //     const retorno = elementosArray.some((e, i)=>{ // pode retornar o elemento, posicao ou o array
@@ -52,11 +52,11 @@ p_array.innerHTML = "["+elementosArray+"]"
 // })
 
 // Metodo REDUCE:
-b_botao.addEventListener('click', (evt)=>{
-    p_resultado.innerHTML = elementosArray.reduce((ante, atual, pos)=>{ // pode retornar o anterior da operação, atual ou posicao
-        ant.push(ante)
-        atu.push(atual)
-        return atual+ante
-    })
-    p_resultado.innerHTML +='<br/> Anterior: '+ant+'<br/> Atual: '+atu
-})
+// b_botao.addEventListener('click', (evt)=>{
+//     p_resultado.innerHTML = elementosArray.reduce((ante, atual, pos)=>{ // pode retornar o anterior da operação, atual ou posicao
+//         ant.push(ante)
+//         atu.push(atual)
+//         return atual+ante
+//     })
+//     p_resultado.innerHTML +='<br/> Anterior: '+ant+'<br/> Atual: '+atu
+// })
