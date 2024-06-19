@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bolhas</title>
+    <script defer src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container-pai">
+        <div class="content-filhos">
+            <div class="n-objetos">
+                <label for="numero-objetos">Número de Objetos</label>
+                <span id="area-num-objetos"></span>
+            </div>
+            <div class="q-objetos">
+                <label for="quantidade-objetos">Quantidade de Objetos</label>
+                <input type="number" name="objetos" id="objetos" min="1">
+                <button id="adicionar">Adicionar</button>
+            </div>
+            <div class="r-objetos">
+                <button id="remover">Remover todos</button>
+            </div>
+        </div>
+        <div class="content-filhos" id="bolas"></div>
+    </div>
+</body>
+</html>
