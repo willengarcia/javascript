@@ -1,11 +1,9 @@
 * {
-    box-sizing: content-box;
     margin: 0;
     padding: 0;
 }
 .container-pai {
     width: 100%;
-    height: 99vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -41,22 +39,11 @@ span {
     border: 1px solid black;
 }
 .container-pai .content-filhos:nth-child(2){
-    border: 2px solid red;
-    width: 98%;
+    width: 100%;
     height: 100%;
     background-color: lightgrey;
     display: flex;
     flex-wrap: wrap;
-}
-.bola {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    animation-name: mover;
-    animation-duration: 2s;
-    animation-delay: 1s;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
 }
 @keyframes mover {
     100% {
