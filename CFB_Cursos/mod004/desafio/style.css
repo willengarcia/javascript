@@ -4,6 +4,7 @@
 }
 .container-pai {
     width: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -39,14 +40,10 @@ span {
     border: 1px solid black;
 }
 .container-pai .content-filhos:nth-child(2){
-    width: 100%;
+    width: 90%;
     height: 100%;
     background-color: lightgrey;
     display: flex;
     flex-wrap: wrap;
-}
-@keyframes mover {
-    100% {
-        transform: translate(150%, 50%);
-    }
+    overflow: hidden;
 }
