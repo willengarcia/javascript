@@ -6,7 +6,18 @@ setInterval(()=>{
     math.innerHTML = Math.floor(Math.random()*700)
 }, 1000)
 window.addEventListener('touchmove', (evento)=>{
-    posX = evento.clientX // Captura a posição X e Y do mouse
+    posX = evento.touches[0].clientX // Captura a posição X e Y da tela do smartphone
+    posY = evento.touches[0].clientY
+
+    const rotacao = Math.atan2(posY -window.innerHeight, posX-window.innerWidth) * 360 / Math.PI // retorna o arco tangente de 2 coeficientes
+    console.log(rotacao)
+
+    pupila.forEach((olho)=>{
+        olho.style.transform = `rotate(${rotacao}deg)`
+    })
+})
+window.addEventListener('mousemove', (evento)=>{
+    posX = evento.clientX // Captura a posição X e Y da tela do mouse
     posY = evento.clientY
 
     const rotacao = Math.atan2(posY, posX) * 360 / Math.PI // retorna o arco tangente de 2 coeficientes
