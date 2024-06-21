@@ -9,7 +9,7 @@ window.addEventListener('touchmove', (evento)=>{
     posX = evento.touches[0].clientX // Captura a posição X e Y da tela do smartphone
     posY = evento.touches[0].clientY
 
-    const rotacao = Math.atan2(posY -window.innerHeight, posX-window.innerWidth) * 360 / Math.PI // retorna o arco tangente de 2 coeficientes
+    const rotacao = Math.atan2(posY -window.innerHeight/2, posX-window.innerWidth/2) * 180 / Math.PI // retorna o arco tangente de 2 coeficientes
     console.log(rotacao)
 
     pupila.forEach((olho)=>{
