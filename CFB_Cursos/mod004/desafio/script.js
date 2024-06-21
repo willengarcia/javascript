@@ -55,6 +55,7 @@ class Bolha{
         elemento.forEach((el)=>{
             el.remove()
         })
+        span.innerHTML = 0
     }
     controleBordas=()=>{
         if(this.posX+this.tam >= larguraPalco){
