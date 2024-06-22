@@ -1,0 +1,119 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+.adv {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    align-items: center;
+    justify-content: space-between;
+    background-color: aquamarine;
+    gap: 1rem;
+}
+.cartas {
+    width: 100px;
+    height: 100px;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    transition: all .5s;
+}
+.cartas:nth-child(1).ativo{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    background-color: red;
+    width: 100px;
+    height: 100px;
+}
+.cartas:nth-child(2).ativo{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    background-color: blue;
+    width: 100px;
+    height: 100px;
+}
+.cartas:nth-child(3).ativo{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    background-color: gray;
+    width: 100px;
+    height: 100px;
+}
+.cartas:nth-child(4).ativo{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    background-color: orange;
+    width: 100px;
+    height: 100px;
+}
+.cartas:nth-child(5).ativo{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    background-color: pink;
+    width: 100px;
+    height: 100px;
+}
+.cartas:nth-child(6).ativo{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    background-color: yellow;
+    width: 100px;
+    height: 100px;
+}
+.cartas:nth-child(7).ativo{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    background-color: green;
+    width: 100px;
+    height: 100px;
+}
+.cartas:nth-child(8).ativo{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    width: 100px;
+    height: 100px;
+}
+.cartas:nth-child(9).ativo{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    background-color: darkorchid;
+    width: 100px;
+    height: 100px;
+}
+#startButton {
+    width: 5rem;
+    padding: 1rem;
+    font-size: 15px;
+    display: flex;
+    text-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
