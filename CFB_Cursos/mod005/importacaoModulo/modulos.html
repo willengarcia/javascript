@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulos</title>
+    <script type="module" src="main.js"></script><!-- Vai ser onde eu vou importar as outras funionalidades de outro arquivo js-->
+    <script type="module" defer src="script.js"></script> 
+    <script type="module" defer src="file.js"></script> <!-- Arquivo onde vai ser exportado-->
+    <style>
+        body {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .corpo {
+            background-color: gray;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 1px 1px 4px black;
+        }
+        .dados {
+            width: min-content;
+            border: 1px solid black;
+            padding: .5rem;
+            margin: 1rem;
+            border-radius: 10px;
+            display: block;
+            margin: .2rem auto;
+        }
+    </style>
+</head>
+<body>
+    <main class="corpo">
+        <div class="form">
+            <div class="dados">
+                <label for="Nome">Nome</label>
+                <input type="text" name="Nome" id="Nome">
+            </div>
+            <div class="dados">
+                <label for="telefone">Telefone</label>
+                <input type="tel" name="telefone" id="telefone">
+            </div>
+            <div class="dados">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email">
+            </div>
+            <div class="dados">
+                <button id="gravar">Gravar</button>
+            </div>
+        </div>
+        <div id="lista-contatos"></div>
+    </main>
+</body>
+</html>
