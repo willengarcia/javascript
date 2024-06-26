@@ -6,22 +6,40 @@ const caixa = document.getElementById('caixa')
 let init = ()=>{
     caixa.style.position = 'relative'
     caixa.style.left = '1px'
+    caixa.style.width = '50px'
+    tamMax = window.innerWidth-parseInt(caixa.style.width)
 }
+let tamMax = null
 let ani = null
 const mover =(dir)=>{
-    caixa.style.left = parseInt(caixa.style.left)+(10*dir)+'px'
+    if(dir>0){
+        if(parseInt(caixa.style.left) <= tamMax){
+            caixa.style.left = parseInt(caixa.style.left)+(10*dir)+'px'
+        }else{
+            clearTimeout(ani)
+        }        
+    }else if(dir<0){
+        if(parseInt(caixa.style.left) >= 0){
+            caixa.style.left = parseInt(caixa.style.left)+(10*dir)+'px'
+        }else{
+            clearTimeout(ani)
+        }
+    }
+    ani = setTimeout(mover, 20, dir)
 }
-para.addEventListener('click', (evt)=>{
-    clearInterval(ani)
-})
 direita.addEventListener('click', (evt)=>{
-    clearInterval(ani)
-    ani = setInterval(mover,20,-1)
+    clearTimeout(ani)
+    mover(1)
 })
-
 esquerda.addEventListener('click', (evt)=>{
-    clearInterval(ani)
-    ani = setInterval(mover,20,1)
+    clearTimeout(ani)
+    mover(-1)
+})
+para.addEventListener('click', ()=>{
+    clearTimeout(ani)
 })
 
-window.onload = init
+window.onload = init()
+window.addEventListener('resize', ()=>{
+    tamMax = window.innerWidth-parseInt(caixa.style.width)
+})
