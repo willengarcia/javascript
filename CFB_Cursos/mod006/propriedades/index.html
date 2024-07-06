@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propriedades</title>
+    <script defer src="script.js"></script>
+    <style>
+        * {
+            border: none;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .info {
+            display: flex;
+            justify-content: space-around;
+            margin: 1rem;
+        }
+        .quadrado {
+            display: flex;
+            width: 100px;
+            height: 100px;
+        }
+        #q1 {
+            background-color: blue;
+        }
+        #q2 {
+            background-color: brown;
+        }
+    </style>
+</head>
+<body>
+    <div class="info" id="info">
+        <p id="posX" class="posX">posX</p>
+        <p id="posY" class="posY">posY</p>
+        <p id="largura">largura</p>
+        <p id="altura">altura</p>
+    </div>
+    <div class="quadrado" id="q1"></div>
+    <div class="quadrado" id="q2"></div>
+</body>
+</html>
