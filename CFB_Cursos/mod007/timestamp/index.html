@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronometro</title>
+    <script defer src="script.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 98dvh;
+            justify-content: center;
+            align-items: center;
+            background-color: darkslategrey;
+        }
+        #timer {
+            padding: 1rem;
+            background-color: chartreuse;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        button {
+            margin: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <p id="timer">00:00:00</p>
+    <button id="iniciar">Iniciar</button>
+    <button id="parar">Parar</button>
+    <button id="zerar">Zerar</button>
+</body>
+</html>
