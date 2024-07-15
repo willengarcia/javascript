@@ -26,4 +26,7 @@ botao.addEventListener('click', (evt)=>{
             senha.style.border = '2px solid red'
         }
     })
+    .catch((res)=>{
+        console.log(`Erro ao validar dados ${res}`)
+    })
 })

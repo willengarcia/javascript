@@ -68,3 +68,59 @@ canvas{
 #login:hover #form{
     margin-left: 5rem;
 }
+
+/* Media */
+
+@media (max-width: 650px) {
+    #login {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        min-width: min-content;
+        width: none;
+        backdrop-filter: blur(2px);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 10px;
+        background-image: linear-gradient(to right, #6358ff33, #ee49fd38);
+        overflow: hidden;
+    }
+    div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    #form {
+        padding: 2rem;
+        margin: auto;
+    }
+    label {
+        margin: .4rem;
+        align-self: flex-start;
+        border-radius: 10px;
+        font-size: 18px;
+    }
+    button {
+        margin-top: 1.5rem;
+        padding: .4rem 1.5rem;
+        font-weight: bold;
+        color: black;
+    }
+    input {
+        color: #000000;
+        font-size: 16px;
+    }
+    #imagem {
+        clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0 49%);
+        transition: all .5s;
+        display: none;
+    }
+    #login:hover #imagem {
+        clip-path: none;
+    }
+    #login:hover #form{
+        margin-left: 0;
+    }
+}
