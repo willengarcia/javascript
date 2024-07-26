@@ -1,0 +1,32 @@
+[
+    {
+        "id":"01",
+        "produto": "Processador",
+        "marca":"intel",
+        "modelo":"i7"
+    },
+    {
+        "id":"02",
+        "produto": "Cooler",
+        "marca":"intel",
+        "modelo":"itxc09"
+    },
+    {
+        "id":"03",
+        "produto": "Teclado",
+        "marca":"HP",
+        "modelo":"v198bz"
+    },
+    {
+        "id":"04",
+        "produto": "Monitor",
+        "marca":"exbom",
+        "modelo":"21ds5"
+    },
+    {
+        "id":"05",
+        "produto": "Drone",
+        "marca":"SFGWU23",
+        "modelo":"BNT4"
+    }
+]

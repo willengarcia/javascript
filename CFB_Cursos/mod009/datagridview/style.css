@@ -1,0 +1,54 @@
+* {
+    padding: 0%;
+    margin: 0%;
+}
+body {
+    display: flex;
+    height: 100dvh;
+    width: 100%;
+    align-items:center;
+    justify-content: center;
+}
+.datagrid  {
+    width: auto;
+    overflow: hidden;
+    border-radius: 10px;
+    background-color: darkgrey;
+}
+.titulos {
+    padding: .5rem;
+    background-color: brown;
+    width: 100%;
+    display: flex;
+    gap: 3rem;
+    font-size: 20px;
+    text-decoration: underline;
+}
+.dados .produtos:nth-child(odd){
+    background-color: aliceblue;
+}
+.produtos {
+    width: 100%;
+    padding: .5rem;
+    margin: .5rem auto;
+    display: flex;
+    gap: 3rem;
+    font-size: 16px;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+}
+.produtos:hover {
+    background-color: khaki !important;
+}
+span {
+    padding: .2rem;
+    margin: auto 2px;
+    cursor: pointer;
+}
+img {
+    width: 20px;
+    padding: .2rem;
+    background-color: darkslategrey;
+    border-radius: 10px;
+}
