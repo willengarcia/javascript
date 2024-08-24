@@ -1,9 +1,13 @@
-import React from  'react' // Importa do React, o modulo react
+import React, { useState } from  'react' // Importa do React, o modulo react
 import './App.css' // Importa o Css 
 import Logo from './componentes/imagens/logo192.png'
 import Header from './componentes/Header' // Importando um Componente
 import Corpo from './componentes/Corpo'
 import Dados from './componentes/Dados'
+import Relogio from './componentes/Relogio'
+import Numero from './componentes/Numero'
+import Imagem192 from './componentes/imagens/logo192.png'
+import Imagem512 from './componentes/imagens/logo512.png'
 /* 
   Importar imagens caso esteja dentro do SRC
   Criar uma pasta dentro de SRC, e dentro dessa pasta fazer outra pasta com o nome 'imagens'
@@ -14,6 +18,8 @@ import Dados from './componentes/Dados'
 */
 
 function App(){
+  const [num, setNum] = useState(10)
+  const [imagem, setImagem] = useState(false)
   const funcao = ()=>{
     return  'funcao de retorno'
   }
@@ -34,12 +40,19 @@ function App(){
       <Header/>
       <Corpo></Corpo>
       <Dados canal={funcaoTeste} curso={somar}></Dados>
+      <Relogio></Relogio>
+      <p>Valor do State num em App: {num}</p>
+      <Numero num={num} setNum={setNum}></Numero>
+      <img src={imagem?Imagem192:Imagem512}></img>
+      <button onClick={()=>{setImagem(!imagem)}}>{imagem?'Ligado':'Desligado'}</button>
       <h1 className={curso} style={{color:'red'}}>Teste{canal}</h1>
       <p style={formatacaoCss}>{funcao()}</p>
       <img src={Logo}/>
     </>
   )
 }
+
+// O uso do setState serve para atualização automática de uma 'variável' sem precisar salvar e para a utilizacao é: const [variavel, setVariavel] = setState, onde o setVariavel serve para atualizar o valor da variavel. Nota importante é que pode ser utilizado a alteração de componentes diferentes com State usando Props
 // Para atribuir uma classe na tag, basta utilizar o className='nome da classe'
 // Para fazer a estilização inline, se usar os atributos css diretamente: style={{atributos:'valores'}}, ou usando objeto literal style={objeto Literal}, ou pode importar pelo CSS: import './App.css', lembrando que utilizando essa maneira, os filhos herdarão os atributos css
 // Ao declarar uma propriedade, basta utilizar o nome da propriedade, e o valor, que pode ser uma função ou uma variável
