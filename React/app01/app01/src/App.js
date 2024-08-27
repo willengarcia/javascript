@@ -1,16 +1,8 @@
-import React, { useState } from  'react' // Importa do React, o modulo react
+import React, { useState, useEffect } from  'react' // Importa do React, o modulo react
 import './App.css' // Importa o Css 
-import Logo from './componentes/imagens/logo192.png'
 import Header from './componentes/Header' // Importando um Componente
-import Corpo from './componentes/Corpo'
-import Dados from './componentes/Dados'
-import Relogio from './componentes/Relogio'
-import Nota from './componentes/Nota'
-import Resultado from './componentes/Resultado'
-import Numero from './componentes/Numero'
-import Imagem192 from './componentes/imagens/logo192.png'
-import Imagem512 from './componentes/imagens/logo512.png'
-import Filhos from './componentes/Filhos'
+import DesafioCarros from './componentes/DesafioCarros'
+
 /* 
   Importar imagens caso esteja dentro do SRC
   Criar uma pasta dentro de SRC, e dentro dessa pasta fazer outra pasta com o nome 'imagens'
@@ -21,34 +13,14 @@ import Filhos from './componentes/Filhos'
 */
 
 function App(){
-  const [notas, setNotas] = useState({"nota1": "0", "nota2": "0", "nota3": "0"})
-  const handleSetNotas = (e) =>{
-    if(e.target.getAttribute('name') == 1){
-      setNotas({"nota1": e.target.value, "nota2": notas.nota2, "nota3": notas.nota3})
-    }else if(e.target.getAttribute('name') == 2){
-      setNotas({"nota1": notas.nota1, "nota2": e.target.value, "nota3": notas.nota3})
-    }else if(e.target.getAttribute('name') == 3){
-      setNotas({"nota1": notas.nota1, "nota2": notas.nota2, "nota3": e.target.value})
-    }
-    
-  }
   return(
     <>
-      <Header/>
-      <Corpo></Corpo>
-      <Relogio></Relogio>
-      <Nota num={1} nota={notas.nota1} setNota={handleSetNotas}></Nota>
-      <Nota num={2} nota={notas.nota2} setNota={handleSetNotas}></Nota>
-      <Nota num={3} nota={notas.nota3} setNota={handleSetNotas}></Nota>
-      <Resultado somaNotas={parseFloat(notas.nota1)+parseFloat(notas.nota2)+parseFloat(notas.nota3)}></Resultado>
-      <Filhos>
-        <h2>Filho secundário do componente App na posição 1</h2>
-        <p>Filho secundário do componente App na posição 2</p>
-      </Filhos>
+      <DesafioCarros></DesafioCarros>
     </>
   )
 }
 
+// Toda vez que a página é montada, ou atualizada, ele usa a Hook useEffect
 // Elevação de State, é quando eu passo os valores da função principal para os outros comonentes, usando props
 // Uma das formas de pegar os valores de um input, é usando o state, e no input atribuindo o atributo 'value' na tag, como o primeiro state, e aplicando o evento onChange, com o parametro value da propria tag.
 // Para trabalhar com retornos de valores de listas e objetos(json), aa melhor função é o .map()
@@ -62,6 +34,48 @@ function App(){
 export default App // Exporta o nome da função para redenrizar no index.js
 
 /*
+  const [carro, setCarro] = useState(true)
+  const ocultaCarro = ()=>{
+    setCarro(!carro)
+  }
+  const [nome, setNome] = useState('')
+  const armazenar = (chave, valor)=>{
+    localStorage.setItem(chave, valor)
+  }
+  const consultar = (chave)=>{
+    if(localStorage.getItem(chave) == null || localStorage.getItem(chave) == undefined){
+      alert('Usuário não encontrado na Base')
+    }else{
+      alert(localStorage.getItem(chave))
+    }
+    
+  }
+  const apagar = (chave)=>{
+    localStorage.removeItem(chave)
+  }
+  localStorage.setItem("nome","bruno") // Adiciona uma chave
+  localStorage.getItem("nome") // Pegar o valor de uma chave
+  localStorage.removeItem("nome") // Remover chave
+  const [contagem, setContagem] = useState(0)
+  useEffect(
+    ()=>{console.log('Página carregada')
+      document.title = `contagem: ${contagem}`
+    }
+  )
+  const [notas, setNotas] = useState({"nota1": "0", "nota2": "0", "nota3": "0"})
+  const handleSetNotas = (e) =>{
+    if(e.target.getAttribute('name') == 1){
+      setNotas({"nota1": e.target.value, "nota2": notas.nota2, "nota3": notas.nota3})
+    }else if(e.target.getAttribute('name') == 2){
+      setNotas({"nota1": notas.nota1, "nota2": e.target.value, "nota3": notas.nota3})
+    }else if(e.target.getAttribute('name') == 3){
+      setNotas({"nota1": notas.nota1, "nota2": notas.nota2, "nota3": e.target.value})
+    }
+    
+  }
+  localStorage.setItem("nome","bruno") // Adiciona uma chave
+  localStorage.getItem("nome") // Pegar o valor de uma chave
+  localStorage.removeItem("nome") // Remover chave
   const [form, setForm] = useState({"nome": "", "idade": "", "curso": ""})
   const handleChange = (e)=>{
     if(e.target.getAttribute('name') == 'nome'){
@@ -112,6 +126,27 @@ export default App // Exporta o nome da função para redenrizar no index.js
       <Corpo></Corpo>
       <Dados canal={funcaoTeste} curso={somar}></Dados>
       <Relogio></Relogio>
+      <Nota num={1} nota={notas.nota1} setNota={handleSetNotas}></Nota>
+      <Nota num={2} nota={notas.nota2} setNota={handleSetNotas}></Nota>
+      <Nota num={3} nota={notas.nota3} setNota={handleSetNotas}></Nota>
+      <Resultado somaNotas={parseFloat(notas.nota1)+parseFloat(notas.nota2)+parseFloat(notas.nota3)}></Resultado>
+      <Filhos>
+        <h2>Filho secundário do componente App na posição 1</h2>
+        <p>Filho secundário do componente App na posição 2</p>
+      </Filhos>
+      <p>Contagem: {contagem}</p>
+      <button onClick={()=>{setContagem(contagem+1)}}>Contar</button>
+      <div>
+        <label>Digite seu nome:</label>
+        <input type='text' value={nome} onChange={(e)=>{setNome(e.target.value)}}></input>
+        <p>Seu nome: {nome}</p>
+        <button onClick={(e)=>{armazenar(nome, nome)}}>Inserir</button>
+        <button onClick={(e)=>{apagar(nome)}}>apagar</button>
+        <button onClick={(e)=>{consultar(nome)}}>Consultar</button>
+      </div>
+      {carro?<Classe canal='CFB Cursos' fator={1}></Classe>:''}
+      <button onClick={()=>{ocultaCarro()}}>Ocultar</button>
+      <p>{'canal: '+ Globais.canal}</p>
       <div>
         <label>Nome</label>
         <input name='nome' value={form.nome} onChange={(e)=>{handleChange(e)}}></input>

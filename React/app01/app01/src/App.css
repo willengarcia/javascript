@@ -1,3 +1,10 @@
-h1 {
+table {
+  border-collapse: collapse;
+  border: 1px solid black;
+  margin-top: 1rem;
+}
+td {
+  border: 1px solid black;
   text-align: center;
+  padding: .5rem;
 }
