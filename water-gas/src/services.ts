@@ -41,6 +41,14 @@ export const uploadImage = async (req: Request, res: Response) => {
     return res.status(409).json({ error_code: 'DOUBLE_REPORT', error_description: 'Leitura do mês já realizada' });
   }
 
+  function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+  }
+
   try {
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
@@ -51,7 +59,7 @@ export const uploadImage = async (req: Request, res: Response) => {
       },
     };
 
-    const prompt = 'O que há na imagem?';
+    const prompt = 'Quero que retorne somente o numero principal contido na imagem, nada a mais';
 
     const result = await model.generateContent([prompt, imagePart]);
     const response = await result.response;
@@ -61,8 +69,8 @@ export const uploadImage = async (req: Request, res: Response) => {
     // Respond with the text extracted from the image
     res.status(200).json({ 
       image_url: '', // Provide actual image URL if available
-      measure_value: parseInt(text, 10)+text, // Convert text to integer value
-      measure_uuid: 'sample-uuid' // Provide actual UUID from Gemini response
+      measure_value: parseInt(text), // Convert text to integer value
+      measure_uuid: generateUUID() // Provide actual UUID from Gemini response
     });
   } catch (err) {
     console.error('Error processing image:', err);
