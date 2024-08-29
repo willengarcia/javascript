@@ -26,10 +26,9 @@ export const uploadImage = async (req: Request, res: Response) => {
     measure_datetime: Joi.date().iso().required(),
     measure_type: Joi.string().valid('WATER', 'GAS').required(),
   });
-
   const { error } = schema.validate(req.body);
   if (error) {
-    return res.status(400).json({ error_code: 'INVALID_DATA', error_description: error.details[0].message });
+    return res.status(400).json({ error_code: 'INVALID_DATA', error_description: error.details[0].message, imagem: error.details });
   }
 
   const { imageBase64, customer_code, measure_datetime, measure_type } = req.body;
@@ -65,11 +64,18 @@ export const uploadImage = async (req: Request, res: Response) => {
     const response = await result.response;
     const text =  response.text();
     console.log(text)
+    
+    // Gerar um nome único para o arquivo da imagem
+    const imageName = `${generateUUID()}.png`;
+    const imagePath = path.join(__dirname, 'uploads', imageName);
 
-    // Respond with the text extracted from the image
+    // Salvar a imagem no servidor localmente
+    fs.writeFileSync(imagePath, Buffer.from(imageBase64, 'base64'));
+
+    const imageUrl = `/uploads/${imageName}`;
     res.status(200).json({ 
-      image_url: '', // Provide actual image URL if available
-      measure_value: parseInt(text), // Convert text to integer value
+      image_url: imageUrl, // Provide actual image URL if available
+      measure_value: parseFloat(text), // Convert text to integer value
       measure_uuid: generateUUID() // Provide actual UUID from Gemini response
     });
   } catch (err) {

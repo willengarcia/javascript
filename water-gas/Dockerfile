@@ -1,23 +1,23 @@
-# Use uma imagem base com Node.js
+# Use uma imagem base Node.js
 FROM node:18
 
-# Define o diretório de trabalho
+# Crie e defina o diretório de trabalho
 WORKDIR /usr/src/app
 
-# Copia os arquivos package.json e package-lock.json
+# Copie os arquivos package.json e package-lock.json
 COPY package*.json ./
 
-# Instala as dependências
+# Instale as dependências
 RUN npm install
 
-# Copia o restante dos arquivos do projeto
+# Copie todo o código-fonte para o diretório de trabalho
 COPY . .
 
-# Compila o código TypeScript
-RUN npx tsc
+# Compile o código TypeScript para JavaScript
+RUN npm run build
 
-# Expõe a porta em que a aplicação vai rodar
-EXPOSE 3000
+# Exponha a porta em que o servidor escutará
+EXPOSE 3001
 
-# Define o comando para iniciar a aplicação
-CMD ["node", "dist/app.js"]
+# Comando para iniciar a aplicação
+CMD ["npm", "start"]
