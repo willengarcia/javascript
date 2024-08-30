@@ -10,7 +10,13 @@ import { PrismaClient } from '@prisma/client';
 
 dotenv.config();
 const prisma = new PrismaClient();
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+const apiKey = process.env.GEMINI_API_KEY;
+if (!apiKey) {
+  throw new Error('API key for Google Generative AI is not defined. Please set GEMINI_API_KEY in your .env file.');
+}
+
+const genAI = new GoogleGenerativeAI(apiKey);
 
 function generateUUID() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

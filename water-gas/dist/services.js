@@ -21,7 +21,11 @@ const generative_ai_1 = require("@google/generative-ai");
 const client_1 = require("@prisma/client");
 dotenv_1.default.config();
 const prisma = new client_1.PrismaClient();
-const genAI = new generative_ai_1.GoogleGenerativeAI('AIzaSyC0--e30gFe36M538DBiwMturjQmv71Pp4');
+const apiKey = process.env.GEMINI_API_KEY;
+if (!apiKey) {
+    throw new Error('API key for Google Generative AI is not defined. Please set GEMINI_API_KEY in your .env file.');
+}
+const genAI = new generative_ai_1.GoogleGenerativeAI(apiKey);
 function generateUUID() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         const r = Math.random() * 16 | 0;
@@ -77,7 +81,7 @@ const uploadImage = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         yield prisma.measure.create({
             data: {
                 measure_uuid: measure_uuid,
-                confirmed_value: null, // Inicialmente não confirmado
+                confirmed_value: null,
                 measure_datetime: new Date(measure_datetime),
                 measure_type: measure_type,
                 image_url: imageUrl,
@@ -88,7 +92,7 @@ const uploadImage = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.status(200).json({
             image_url: imageUrl,
             measure_value: parseFloat(text),
-            measure_uuid: measure_uuid // Retorna o UUID gerado
+            measure_uuid: measure_uuid
         });
     }
     catch (err) {
@@ -99,7 +103,7 @@ const uploadImage = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.uploadImage = uploadImage;
 const confirmMeasure = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const schema = joi_1.default.object({
-        measure_uuid: joi_1.default.string().required(), // Adiciona o measure_uuid à validação
+        measure_uuid: joi_1.default.string().required(),
         confirmed_value: joi_1.default.number().integer().required(),
     });
     const { error } = schema.validate(req.body);
@@ -141,8 +145,8 @@ const listMeasures = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         // Consultar medidas com base no código do cliente e tipo de medição
         const measures = yield prisma.measure.findMany({
             where: {
-                customer_code: customer_code, // Certifique-se de que o nome do campo está correto
-                measure_type: measure_type // Inclua o filtro opcional para measure_type
+                customer_code: customer_code,
+                measure_type: measure_type
             }
         });
         if (measures.length === 0) {

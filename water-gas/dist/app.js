@@ -12,9 +12,9 @@ const path = require("path");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3001;
-// Configure o middleware cors
+// Configuração o middleware cors
 app.use((0, cors_1.default)({
-    origin: 'http://localhost:3002', // Permite requisições somente do frontend
+    origin: 'http://localhost:3002', // Permitir requisições somente do frontend
 }));
 app.use(body_parser_1.default.json({ limit: '500mb' }));
 app.use(body_parser_1.default.urlencoded({ limit: '500mb', extended: true }));
