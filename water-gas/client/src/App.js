@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css'
 import Resultado from './componentes/Resultado';
+import Listas from './componentes/Listas';
 
 const UploadForm = () => {
     const [image, setImage] = useState('');
@@ -10,21 +11,22 @@ const UploadForm = () => {
     const [urlImagem, setUrlImagem] = useState('#')
     const [valor, setValor] = useState('nulo')
     const [uuid, setUuid] = useState('nulo')
+    const [display, setDisplay] = useState({"display":"block"})
 
     const [resultado, setResultado] = useState(false)
     const chamaResultado = (c)=>{
         if(c == true){
-            return <Resultado image_url={urlImagem} measure_value={valor} measure_uuid={uuid}></Resultado>
+            return <Resultado image_url={urlImagem} measure_value={valor} measure_uuid={uuid} display={display}></Resultado>
         }
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const measureDateTime = new Date().toISOString(); // Define o datetime no formato ISO
+        const measureDateTime = new Date().toISOString();
 
         const data = {
-            imageBase64: image, // Certifique-se de que a imagem é uma string codificada em Base64
+            imageBase64: image, 
             customer_code: customerCode,
             measure_datetime: measureDateTime,
             measure_type: measureType
@@ -53,7 +55,7 @@ const UploadForm = () => {
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setImage(reader.result.split(',')[1]); // Obtém apenas a parte da string Base64
+                setImage(reader.result.split(',')[1]);
             };
             reader.readAsDataURL(file);
         }
@@ -90,6 +92,7 @@ const UploadForm = () => {
                 </form>
             </div>
             {chamaResultado(resultado)}
+            <Listas></Listas>
         </div>
         
     );

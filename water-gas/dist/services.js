@@ -18,15 +18,16 @@ const path_1 = __importDefault(require("path"));
 const joi_1 = __importDefault(require("joi"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const generative_ai_1 = require("@google/generative-ai");
+const client_1 = require("@prisma/client");
 dotenv_1.default.config();
+const prisma = new client_1.PrismaClient();
 const genAI = new generative_ai_1.GoogleGenerativeAI('AIzaSyC0--e30gFe36M538DBiwMturjQmv71Pp4');
-function fileToGenerativePart(filePath, mimeType) {
-    return {
-        inlineData: {
-            data: Buffer.from(fs_1.default.readFileSync(filePath)).toString('base64'),
-            mimeType
-        },
-    };
+function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
 }
 const uploadImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const schema = joi_1.default.object({
@@ -40,19 +41,18 @@ const uploadImage = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         return res.status(400).json({ error_code: 'INVALID_DATA', error_description: error.details[0].message, imagem: error.details });
     }
     const { imageBase64, customer_code, measure_datetime, measure_type } = req.body;
-    // Simulate existing reading check
-    const existingReading = false; // Replace with actual DB check
-    if (existingReading) {
-        return res.status(409).json({ error_code: 'DOUBLE_REPORT', error_description: 'Leitura do mês já realizada' });
-    }
-    function generateUUID() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            const r = Math.random() * 16 | 0;
-            const v = c === 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
-    }
     try {
+        // Verificar se a leitura já foi registrada
+        const existingReading = yield prisma.measure.findFirst({
+            where: {
+                customer_code: customer_code,
+                measure_datetime: new Date(measure_datetime),
+                measure_type: measure_type
+            }
+        });
+        if (existingReading) {
+            return res.status(409).json({ error_code: 'DOUBLE_REPORT', error_description: 'Leitura do mês já realizada' });
+        }
         const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
         const imagePart = {
             inlineData: {
@@ -63,7 +63,7 @@ const uploadImage = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const prompt = 'Quero que retorne somente o numero principal contido na imagem, nada a mais';
         const result = yield model.generateContent([prompt, imagePart]);
         const response = yield result.response;
-        const text = response.text();
+        const text = yield response.text(); // Await for the text to be fully resolved
         console.log(text);
         // Gerar um nome único para o arquivo da imagem
         const imageName = `${generateUUID()}.png`;
@@ -71,10 +71,24 @@ const uploadImage = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         // Salvar a imagem no servidor localmente
         fs_1.default.writeFileSync(imagePath, Buffer.from(imageBase64, 'base64'));
         const imageUrl = `/uploads/${imageName}`;
+        // Gerar o UUID para a medida
+        const measure_uuid = generateUUID();
+        // Armazenar a leitura no banco de dados
+        yield prisma.measure.create({
+            data: {
+                measure_uuid: measure_uuid,
+                confirmed_value: null, // Inicialmente não confirmado
+                measure_datetime: new Date(measure_datetime),
+                measure_type: measure_type,
+                image_url: imageUrl,
+                customer_code: customer_code,
+                has_confirmed: false,
+            }
+        });
         res.status(200).json({
-            image_url: imageUrl, // Provide actual image URL if available
-            measure_value: parseFloat(text), // Convert text to integer value
-            measure_uuid: generateUUID() // Provide actual UUID from Gemini response
+            image_url: imageUrl,
+            measure_value: parseFloat(text),
+            measure_uuid: measure_uuid // Retorna o UUID gerado
         });
     }
     catch (err) {
@@ -85,7 +99,7 @@ const uploadImage = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.uploadImage = uploadImage;
 const confirmMeasure = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const schema = joi_1.default.object({
-        measure_uuid: joi_1.default.string().required(),
+        measure_uuid: joi_1.default.string().required(), // Adiciona o measure_uuid à validação
         confirmed_value: joi_1.default.number().integer().required(),
     });
     const { error } = schema.validate(req.body);
@@ -93,17 +107,28 @@ const confirmMeasure = (req, res) => __awaiter(void 0, void 0, void 0, function*
         return res.status(400).json({ error_code: 'INVALID_DATA', error_description: error.details[0].message });
     }
     const { measure_uuid, confirmed_value } = req.body;
-    // Simulate reading check and confirmation status
-    const reading = true; // Replace with actual DB check
-    const alreadyConfirmed = false; // Replace with actual DB check
-    if (!reading) {
-        return res.status(404).json({ error_code: 'MEASURE_NOT_FOUND', error_description: 'Leitura não encontrada' });
+    try {
+        // Verificar se a leitura existe e se já foi confirmada
+        const measure = yield prisma.measure.findUnique({
+            where: { measure_uuid },
+        });
+        if (!measure) {
+            return res.status(404).json({ error_code: 'MEASURE_NOT_FOUND', error_description: 'Leitura não encontrada' });
+        }
+        if (measure.confirmed_value !== null) {
+            return res.status(409).json({ error_code: 'CONFIRMATION_DUPLICATE', error_description: 'Leitura já confirmada' });
+        }
+        // Atualizar o valor confirmado
+        yield prisma.measure.update({
+            where: { measure_uuid },
+            data: { confirmed_value, has_confirmed: true },
+        });
+        res.status(200).json({ success: true });
     }
-    if (alreadyConfirmed) {
-        return res.status(409).json({ error_code: 'CONFIRMATION_DUPLICATE', error_description: 'Leitura já confirmada' });
+    catch (err) {
+        console.error('Error processing measure confirmation:', err);
+        res.status(500).json({ error_code: 'INTERNAL_ERROR', error_description: 'Failed to process measure confirmation' });
     }
-    // Simulate saving the confirmed value
-    res.status(200).json({ success: true });
 });
 exports.confirmMeasure = confirmMeasure;
 const listMeasures = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -112,20 +137,31 @@ const listMeasures = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     if (measure_type && !['WATER', 'GAS'].includes(measure_type)) {
         return res.status(400).json({ error_code: 'INVALID_TYPE', error_description: 'Tipo de medição não permitida' });
     }
-    // Simulate measure retrieval
-    const measures = [1]; // Replace with actual DB query
-    if (measures.length === 0) {
-        return res.status(404).json({ error_code: 'MEASURES_NOT_FOUND', error_description: 'Nenhuma leitura encontrada' });
+    try {
+        // Consultar medidas com base no código do cliente e tipo de medição
+        const measures = yield prisma.measure.findMany({
+            where: {
+                customer_code: customer_code, // Certifique-se de que o nome do campo está correto
+                measure_type: measure_type // Inclua o filtro opcional para measure_type
+            }
+        });
+        if (measures.length === 0) {
+            return res.status(404).json({ error_code: 'MEASURES_NOT_FOUND', error_description: 'Nenhuma leitura encontrada' });
+        }
+        res.status(200).json({
+            customer_code,
+            measures: measures.map((measure) => ({
+                measure_uuid: measure.measure_uuid,
+                measure_datetime: measure.measure_datetime,
+                measure_type: measure.measure_type,
+                has_confirmed: measure.has_confirmed,
+                image_url: measure.image_url
+            }))
+        });
     }
-    res.status(200).json({
-        customer_code,
-        measures: measures.map((measure) => ({
-            measure_uuid: measure.measure_uuid,
-            measure_datetime: measure.measure_datetime,
-            measure_type: measure.measure_type,
-            has_confirmed: measure.has_confirmed,
-            image_url: measure.image_url
-        }))
-    });
+    catch (err) {
+        console.error('Error retrieving measures:', err);
+        res.status(500).json({ error_code: 'INTERNAL_ERROR', error_description: 'Failed to retrieve measures' });
+    }
 });
 exports.listMeasures = listMeasures;

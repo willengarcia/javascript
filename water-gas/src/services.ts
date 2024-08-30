@@ -5,18 +5,19 @@ import axios from 'axios';
 import Joi from 'joi';
 import dotenv from 'dotenv';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { PrismaClient } from '@prisma/client';
+
 
 dotenv.config();
-
+const prisma = new PrismaClient();
 const genAI = new GoogleGenerativeAI('AIzaSyC0--e30gFe36M538DBiwMturjQmv71Pp4');
 
-function fileToGenerativePart(filePath: string, mimeType: string) {
-  return {
-    inlineData: {
-      data: Buffer.from(fs.readFileSync(filePath)).toString('base64'),
-      mimeType
-    },
-  };
+function generateUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
 }
 
 export const uploadImage = async (req: Request, res: Response) => {
@@ -33,22 +34,20 @@ export const uploadImage = async (req: Request, res: Response) => {
 
   const { imageBase64, customer_code, measure_datetime, measure_type } = req.body;
 
-  // Simulate existing reading check
-  const existingReading = false; // Replace with actual DB check
-
-  if (existingReading) {
-    return res.status(409).json({ error_code: 'DOUBLE_REPORT', error_description: 'Leitura do mês já realizada' });
-  }
-
-  function generateUUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        const r = Math.random() * 16 | 0;
-        const v = c === 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
-  }
-
   try {
+    // Verificar se a leitura já foi registrada
+    const existingReading = await prisma.measure.findFirst({
+      where: {
+        customer_code: customer_code,
+        measure_datetime: new Date(measure_datetime),
+        measure_type: measure_type
+      }
+    });
+
+    if (existingReading) {
+      return res.status(409).json({ error_code: 'DOUBLE_REPORT', error_description: 'Leitura do mês já realizada' });
+    }
+
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
     const imagePart = {
@@ -62,9 +61,9 @@ export const uploadImage = async (req: Request, res: Response) => {
 
     const result = await model.generateContent([prompt, imagePart]);
     const response = await result.response;
-    const text =  response.text();
-    console.log(text)
-    
+    const text = await response.text(); // Await for the text to be fully resolved
+    console.log(text);
+
     // Gerar um nome único para o arquivo da imagem
     const imageName = `${generateUUID()}.png`;
     const imagePath = path.join(__dirname, 'uploads', imageName);
@@ -73,10 +72,25 @@ export const uploadImage = async (req: Request, res: Response) => {
     fs.writeFileSync(imagePath, Buffer.from(imageBase64, 'base64'));
 
     const imageUrl = `/uploads/${imageName}`;
+    // Gerar o UUID para a medida
+    const measure_uuid = generateUUID();
+    // Armazenar a leitura no banco de dados
+    await prisma.measure.create({
+      data: {
+        measure_uuid: measure_uuid,
+        confirmed_value: null,
+        measure_datetime: new Date(measure_datetime),
+        measure_type: measure_type,
+        image_url: imageUrl,
+        customer_code: customer_code,
+        has_confirmed: false,
+      }
+    });
+
     res.status(200).json({ 
-      image_url: imageUrl, // Provide actual image URL if available
-      measure_value: parseFloat(text), // Convert text to integer value
-      measure_uuid: generateUUID() // Provide actual UUID from Gemini response
+      image_url: imageUrl, 
+      measure_value: parseFloat(text), 
+      measure_uuid: measure_uuid
     });
   } catch (err) {
     console.error('Error processing image:', err);
@@ -97,20 +111,31 @@ export const confirmMeasure = async (req: Request, res: Response) => {
 
   const { measure_uuid, confirmed_value } = req.body;
 
-  // Simulate reading check and confirmation status
-  const reading = true; // Replace with actual DB check
-  const alreadyConfirmed = false; // Replace with actual DB check
+  try {
+    // Verificar se a leitura existe e se já foi confirmada
+    const measure = await prisma.measure.findUnique({
+      where: { measure_uuid },
+    });
 
-  if (!reading) {
-    return res.status(404).json({ error_code: 'MEASURE_NOT_FOUND', error_description: 'Leitura não encontrada' });
+    if (!measure) {
+      return res.status(404).json({ error_code: 'MEASURE_NOT_FOUND', error_description: 'Leitura não encontrada' });
+    }
+
+    if (measure.confirmed_value !== null) {
+      return res.status(409).json({ error_code: 'CONFIRMATION_DUPLICATE', error_description: 'Leitura já confirmada' });
+    }
+
+    // Atualizar o valor confirmado
+    await prisma.measure.update({
+      where: { measure_uuid },
+      data: { confirmed_value, has_confirmed: true },
+    });
+
+    res.status(200).json({ success: true });
+  } catch (err) {
+    console.error('Error processing measure confirmation:', err);
+    res.status(500).json({ error_code: 'INTERNAL_ERROR', error_description: 'Failed to process measure confirmation' });
   }
-
-  if (alreadyConfirmed) {
-    return res.status(409).json({ error_code: 'CONFIRMATION_DUPLICATE', error_description: 'Leitura já confirmada' });
-  }
-
-  // Simulate saving the confirmed value
-  res.status(200).json({ success: true });
 };
 
 export const listMeasures = async (req: Request, res: Response) => {
@@ -121,21 +146,32 @@ export const listMeasures = async (req: Request, res: Response) => {
     return res.status(400).json({ error_code: 'INVALID_TYPE', error_description: 'Tipo de medição não permitida' });
   }
 
-  // Simulate measure retrieval
-  const measures = [1]; // Replace with actual DB query
+  try {
+    // Consultar medidas com base no código do cliente e tipo de medição
+    const measures = await prisma.measure.findMany({
+      where: {
+        customer_code: customer_code,
+        measure_type: measure_type as string | undefined
+      }
+    });
 
-  if (measures.length === 0) {
-    return res.status(404).json({ error_code: 'MEASURES_NOT_FOUND', error_description: 'Nenhuma leitura encontrada' });
+    if (measures.length === 0) {
+      return res.status(404).json({ error_code: 'MEASURES_NOT_FOUND', error_description: 'Nenhuma leitura encontrada' });
+    }
+
+    res.status(200).json({
+      customer_code,
+      measures: measures.map((measure: any) => ({
+        measure_uuid: measure.measure_uuid,
+        measure_datetime: measure.measure_datetime,
+        measure_type: measure.measure_type,
+        has_confirmed: measure.has_confirmed,
+        image_url: measure.image_url
+      }))
+    });
   }
-
-  res.status(200).json({
-    customer_code,
-    measures: measures.map((measure: any) => ({
-      measure_uuid: measure.measure_uuid,
-      measure_datetime: measure.measure_datetime,
-      measure_type: measure.measure_type,
-      has_confirmed: measure.has_confirmed,
-      image_url: measure.image_url
-    }))
-  });
+  catch (err) {
+    console.error('Error retrieving measures:', err);
+    res.status(500).json({ error_code: 'INTERNAL_ERROR', error_description: 'Failed to retrieve measures' });
+  }
 };

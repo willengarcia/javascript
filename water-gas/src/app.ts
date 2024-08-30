@@ -10,9 +10,9 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3001;
 
-// Configure o middleware cors
+// Configuração o middleware cors
 app.use(cors({
-  origin: 'http://localhost:3002', // Permite requisições somente do frontend
+  origin: 'http://localhost:3002', // Permitir requisições somente do frontend
 }));
 
 app.use(bodyParser.json({ limit: '500mb' }));
