@@ -2,6 +2,8 @@ import React, { useState, useEffect } from  'react' // Importa do React, o modul
 import './App.css' // Importa o Css 
 import Header from './componentes/Header' // Importando um Componente
 import DesafioCarros from './componentes/DesafioCarros'
+import Imc from './componentes/Imc'
+import Calculadora from './componentes/Calculadora'
 
 /* 
   Importar imagens caso esteja dentro do SRC
@@ -15,7 +17,7 @@ import DesafioCarros from './componentes/DesafioCarros'
 function App(){
   return(
     <>
-      <DesafioCarros></DesafioCarros>
+      <Calculadora></Calculadora>
     </>
   )
 }
