@@ -4,6 +4,7 @@ import Header from './componentes/Header' // Importando um Componente
 import DesafioCarros from './componentes/DesafioCarros'
 import Imc from './componentes/Imc'
 import Calculadora from './componentes/Calculadora'
+import Jogo from './componentes/Jogo'
 
 /* 
   Importar imagens caso esteja dentro do SRC
@@ -17,7 +18,7 @@ import Calculadora from './componentes/Calculadora'
 function App(){
   return(
     <>
-      <Calculadora></Calculadora>
+      <Jogo></Jogo>
     </>
   )
 }
