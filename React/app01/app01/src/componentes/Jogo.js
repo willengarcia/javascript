@@ -1,15 +1,6 @@
 import React, { useState } from 'react';
 import '../App.css'
 export default function Jogo(){
-    const [a1, setA1] = useState('')
-    const [a2, setA2] = useState('')
-    const [a3, setA3] = useState('')
-    const [b1, setB1] = useState('')
-    const [b2, setB2] = useState('')
-    const [b3, setB3] = useState('')
-    const [c1, setC1] = useState('')
-    const [c2, setC2] = useState('')
-    const [c3, setC3] = useState('')
     const inicio = [['','',''], 
                     ['','',''], 
                     ['','','']]
@@ -23,23 +14,28 @@ export default function Jogo(){
             <div className='jogo'>
                 <table id='jogo-velha'>
                     <tr>
-                        <td data-pos='01' onClick={(e)=>{}}>{j[0][0]}</td>
-                        <td data-pos='02' onClick={(e)=>{}}>{j[0][1]}</td>
-                        <td data-pos='03' onClick={(e)=>{}}>{j[0][2]}</td>
+                        <td data-pos='00' onClick={(e)=>joga(e)}>{j[0][0]}</td>
+                        <td data-pos='01' onClick={(e)=>joga(e)}>{j[0][1]}</td>
+                        <td data-pos='02' onClick={(e)=>joga(e)}>{j[0][2]}</td>
                     </tr>
                     <tr>
-                        <td data-pos='11' onClick={(e)=>{}}>{j[1][0]}</td>
-                        <td data-pos='12' onClick={(e)=>{}}>{j[1][1]}</td>
-                        <td data-pos='13' onClick={(e)=>{}}>{j[1][2]}</td>
+                        <td data-pos='10' onClick={(e)=>joga(e)}>{j[1][0]}</td>
+                        <td data-pos='11' onClick={(e)=>joga(e)}>{j[1][1]}</td>
+                        <td data-pos='12' onClick={(e)=>joga(e)}>{j[1][2]}</td>
                     </tr>
                     <tr>
-                        <td data-pos='21' onClick={(e)=>{}}>{j[2][0]}</td>
-                        <td data-pos='22' onClick={(e)=>{}}>{j[2][1]}</td>
-                        <td data-pos='23' onClick={(e)=>{}}>{j[2][2]}</td>
+                        <td data-pos='20' onClick={(e)=>joga(e)}>{j[2][0]}</td>
+                        <td data-pos='21' onClick={(e)=>joga(e)}>{j[2][1]}</td>
+                        <td data-pos='22' onClick={(e)=>joga(e)}>{j[2][2]}</td>
                     </tr>
                 </table>
             </div>
         )
+    }
+    const btnNovamente = ()=>{
+        if(!jogando){
+            return<button onClick={()=>reiniciar()}>Jogar Novamente</button>
+        }
     }
     const verificaVitoria = ()=>{
         // linhas 
@@ -53,8 +49,8 @@ export default function Jogo(){
                 }
             }
             if(pontos == 3){
-                vitoria =true
-                break
+                vitoria = true
+                return
             }
         }
 
@@ -75,45 +71,71 @@ export default function Jogo(){
         // diagonais
         pontos = 0
         for(let d = 0; d<3; d++){
-            if(jogo[d][d]){
-                if(jogo[l][c] == simboloAtual){
-                    pontos++
-                }
-            }
-            if(pontos == 3){
-                vitoria =true
-                break
+            if(jogo[d][d] == simboloAtual){
+                pontos++
             }
         }
+        if(pontos == 3){
+            vitoria =true
+        }
         pontos = 0
-        let l = 0 
+        let l = 0  
         for(let c = 2; c>=0; c--){
             if(jogo[l][c] == simboloAtual){
                 pontos++
             }
-            if(pontos == 3){
-                vitoria =true
-                break
-            }
+            l++
+        }
+        if(pontos == 3){
+            vitoria =true
         }
         return vitoria
     }
-
     const trocaJogador = ()=>{
         simboloAtual == 'X'?setSimboloAtual('O'):setSimboloAtual('X')
     }
     const retornaPos = (e)=>{
         const p = e.target.getAttribute('data-pos')
         const pos = [parseInt(p.substring(0,1)), parseInt(p.substring(1,2))]
+        console.log(pos)
         return pos
     }
     const verificaEspaco = (e)=>{
-        if(jogo[retornaPos(e)[0]][retornaPos[e][1]]==''){
+        if(jogo[retornaPos(e)[0]][retornaPos(e)[1]]==''){
             return true
         }else{
             return false
         }
     }
+    const joga = (el) =>{
+        if(jogando){
+            if(verificaEspaco(el)){
+                jogo[retornaPos(el)[0]][retornaPos(el)[1]] = simboloAtual
+                trocaJogador()
+                if(verificaVitoria()){
+                    trocaJogador()
+                    alert('Jogador ' + simboloAtual + ' venceu!')
+                    setJogando(false)
+                }
+            }else{
+                alert('Esse espaço já está em uso')
+            }
+        }
+    }
+    const reiniciar = ()=>{
+        setJogando(true)
+        setJogo(inicio)
+        setSimboloAtual('X')
+    }
     return(
+        <>
+            {'Quem joga:' + simboloAtual}
+            <div>
+                {tabuleiro(jogo)}
+            </div>
+            <div>
+                {btnNovamente()}
+            </div>
+        </>
     )
 }
