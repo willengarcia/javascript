@@ -1,0 +1,198 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+.menu {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+}
+.menu-botao {
+  font-size: 30px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+.listaMenu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.5s ease, opacity 0.5s ease;
+}
+.listaMenu li {
+  margin: 10px 0;
+  text-align: center;
+  padding: .3rem;
+  border-radius: 50px;
+  border: 1px solid rgb(241, 169, 169);
+  cursor: pointer;
+}
+.listaMenu.aberto {
+  max-height: 500px; /* Altura máxima ajustável, dependendo do número de itens */
+  opacity: 1;
+}
+:root{
+  --cor-backeground: rgba(250, 235, 215, 0.363);
+  --cor-titulos: rgb(173, 8, 8);
+  --cor-botoes: rgb(206, 124, 56);
+}
+.cabecaInicial{
+  height: 15rem;
+  background-color: var(--cor-backeground);
+  background-image: url(./imagens/background-header-md.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cabecaInicial > h1 {
+  color: white;
+  text-align: center;
+  width: 90%;
+}
+.cabecaInicial > p {
+  color: white;
+}
+.cabecaInicial > button{
+  padding: .5rem 3rem;
+  margin-top: 2rem;
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 50px;
+  color: rgb(237, 238, 243);
+  font-weight: bold;
+  font-size: 16px;
+  transition: all .5s;
+  cursor: pointer;
+}
+.cabecaInicial > button:hover{
+  background-color: var(--cor-botoes);
+  border: none;
+  transform: scale(105%);
+}
+.corpo {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--cor-backeground);
+}
+.corpo > .cards-servicos{
+  display: flex;
+  padding: 1rem;
+  flex-direction: column;
+  justify-content: center;
+}
+.corpo > .cards-servicos > h2 {
+  color: var(--cor-titulos);
+  font-size: 18px;
+}
+.corpo > .cards-servicos > .service{
+  padding: 1rem;
+  border: 1px solid red;
+  margin: .5rem;
+}
+.service h3 {
+  font-weight: 300;
+}
+.service p {
+  font-weight: 100;
+}
+.service hr {
+  margin: .8rem 0 .8rem 0;
+  color: rgb(218, 154, 154);
+}
+.service h4 {
+  margin-bottom: .8rem;
+  font-size: 20px;
+  color: rgb(182, 48, 48);
+}
+.service button {
+  margin: auto;
+  display: block;
+  padding: .5rem 3rem;
+  margin-top: 2rem;
+  background-color: transparent;
+  border: 1px solid rgb(236, 6, 6);
+  color: rgb(99, 0, 0);
+  font-weight: 100;
+  font-size: 16px;
+  transition: all .5s;
+}
+
+.sobre {
+  display: flex;
+  flex-direction: column;
+}
+.sobre .imagemParalax{
+  height: 30dvh;
+  background-color: black;
+  background-image: url(./imagens/background-sobre-md.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.sobre > .sobreDetalhes {
+  padding: 1rem;
+}
+.sobreDetalhes h2{
+  color: var(--cor-titulos);
+  font-weight: 500;
+}
+.sobreDetalhes p {
+  color: var(--cor-titulos);
+  font-weight: 200;
+  line-height: 1.5rem;
+}
+.sobreDetalhes button {
+  padding: .5rem 3rem;
+  margin-top: 2rem;
+  background-color: transparent;
+  border: 1px solid rgb(236, 6, 6);
+  border-radius: 50px;
+  color: rgb(99, 0, 0);
+  font-weight: 100;
+  font-size: 16px;
+  transition: all .5s;
+}
+
+.contato {
+  border-radius: 10% 10% 0 0;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background-color: rgb(243, 223, 180);
+}
+.contato .informacoesContato {
+  height: 35dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-around;
+  color: var(--cor-titulos);
+  margin-bottom: 1rem;
+}
+.informacoesContato h2 {
+  font-weight: 500;
+}
+
+.icones {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  list-style-type: none;
+  background-color: aliceblue;
+}
+.icones li {
+  margin: .2rem;
+  padding: .3rem;
+}
