@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import '../App.css'
 
 export default function Inicial(){
@@ -7,46 +7,90 @@ export default function Inicial(){
     const alternarMenu = () => {
       setMenuAberto(!menuAberto); // Alterna o estado do menu entre aberto e fechado
     };
+    useEffect(() => {
+        const pupilas = document.querySelectorAll('.bola');
+    
+        const moverPupilas = (evento) => {
+          const posX = evento.clientX || (evento.touches && evento.touches[0].clientX);
+          const posY = evento.clientY || (evento.touches && evento.touches[0].clientY);
+    
+          pupilas.forEach((pupila) => {
+            const rect = pupila.parentElement.getBoundingClientRect(); // Pega a posição do olho (pai da pupila)
+    
+            // Calcula a posição relativa da pupila ao centro do olho
+            const olhoCentroX = rect.left + rect.width / 2;
+            const olhoCentroY = rect.top + rect.height / 2;
+    
+            // Calcula o ângulo de rotação em relação à posição do mouse ou toque
+            const angulo = Math.atan2(posY - olhoCentroY, posX - olhoCentroX);
+    
+            // Define a nova posição da pupila dentro do olho (movimento limitado)
+            const distMaxima = rect.width / 4; // Limite de movimento da pupila (metade do raio do olho)
+            const pupilaX = Math.cos(angulo) * distMaxima;
+            const pupilaY = Math.sin(angulo) * distMaxima;
+    
+            pupila.style.transform = `translate(${pupilaX}px, ${pupilaY}px)`; // Move a pupila
+          });
+        };
+    
+        // Adiciona os eventos de mouse e toque
+        window.addEventListener('mousemove', moverPupilas);
+        window.addEventListener('touchmove', moverPupilas);
+    
+        // Limpeza ao desmontar o componente
+        return () => {
+          window.removeEventListener('mousemove', moverPupilas);
+          window.removeEventListener('touchmove', moverPupilas);
+        };
+      }, []);
     return(
         <div id='containerPaiInicial'>
             <nav className='menu'>
                 <button className="menu-botao" onClick={alternarMenu}>&#9776;</button>
                 <ul  className={`listaMenu ${menuAberto ? 'aberto' : ''}`}>
-                    <li>Login</li>
-                    <li>Cadastra-se</li>
-                    <li>Serviços</li>
-                    <li>Sobre</li>
-                    <li>Avaliações</li>
-                    <li>Contato</li>
+                    <li><a href='#'>Login</a></li>
+                    <li><a href='#'>Cadastra-se</a></li>
+                    <li><a href='#'>Serviços</a></li>
+                    <li><a href='#'>Sobre</a></li>
+                    <li><a href='#'>Avaliações</a></li>
+                    <li><a href='#'>Contato</a></li>
                 </ul>
             </nav>
             <header className='cabecaInicial'>
                 <h1>Explore Nossos Serviços</h1>
                 <p>Seja Bem-Vindo ao Serviço Expresso</p>
+                <p>Sua solução completa em serviços profissionais</p>
                 <button>Entrar</button>
             </header>
             <main className='corpo'>
                 <section className='cards-servicos'>
                     <h2>Nossos Serviços</h2>
                     <article className='service'>
-                        <h3>Nome do serviço</h3>
-                        <p>      Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum amet quidem dolorum dignissimos incidunt ratione eos. Quos enim eveniet officia rerum et, ex dolore repellat totam voluptates, incidunt consequatur? Corrupti.</p>
+                        <h3>Limpeza Residencial</h3>
+                        <p>Mantenha sua casa impecável com nossa equipe especializada.</p>
+                        <hr></hr>
+                        <h4>~R$70</h4>
+                        <button>Agendar</button>
+                    </article>
+                    <article className='service'>
+                        <h3>Reparos Gerais</h3>
+                        <p>Soluções rápidas e eficientes para pequenos reparos domésticos.</p>
                         <hr></hr>
                         <h4>~R$80</h4>
                         <button>Agendar</button>
                     </article>
                     <article className='service'>
-                        <h3>Nome do serviço</h3>
-                        <p>      Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum amet quidem dolorum dignissimos incidunt ratione eos. Quos enim eveniet officia rerum et, ex dolore repellat totam voluptates, incidunt consequatur? Corrupti.</p>
+                        <h3>Jardinagem</h3>
+                        <p>Cuide do seu jardim com nossos serviços de paisagismo e manutenção.</p>
                         <hr></hr>
-                        <h4>~R$80</h4>
+                        <h4>~R$50</h4>
                         <button>Agendar</button>
                     </article>
                     <article className='service'>
-                        <h3>Nome do serviço</h3>
-                        <p>      Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum amet quidem dolorum dignissimos incidunt ratione eos. Quos enim eveniet officia rerum et, ex dolore repellat totam voluptates, incidunt consequatur? Corrupti.</p>
+                        <h3>Suporte de TI</h3>
+                        <p>Assistência técnica para seus dispositivos eletrônicos.</p>
                         <hr></hr>
-                        <h4>~R$80</h4>
+                        <h4>~R$100</h4>
                         <button>Agendar</button>
                     </article>
                 </section>
@@ -54,36 +98,79 @@ export default function Inicial(){
                     <div className='imagemParalax'></div>
                     <article className='sobreDetalhes'>
                         <h2>Sobre Nós</h2>
-                        <p>      Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum amet quidem dolorum dignissimos incidunt ratione eos. Quos enim eveniet officia rerum et, ex dolore repellat totam voluptates, incidunt consequatur? Corrupti.</p>
+                        <p>A ServiçosExpress é uma empresa comprometida em fornecer soluções de alta qualidade para suas necessidades diárias. Com anos de experiência e uma equipe de profissionais qualificados, estamos prontos para atender você com excelência e dedicação.</p>
                         <button>Saiba Mais</button>
+                    </article>
+                </section>
+                <section className='avaliacoes'>
+                    <h2>Avaliações</h2>
+                    <article className='avaliacao'>
+                        <div className='people'>
+                            <div className='imagem-olhos'>
+                                <div className="olhos">
+                                    <div className="olho">
+                                        <div className="bola">
+                                        </div>
+                                    </div>
+                                    <div className="olho">
+                                        <div className="bola">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h3>David Santos Conceição</h3>
+                        </div>
+                        <p>Melhoras na parte de suporte ao cliente, pois demorei ser atendido. Fora isso o serviço foi excelente, e o profissional foi bastante pontual!</p>
+                        <p className='star'>★★★</p>
+                    </article>
+                    <article className='avaliacao'>
+                        <div className='people'>
+                            <div className='imagem-olhos'>
+                                <div className="olhos">
+                                    <div className="olho">
+                                        <div className="bola">
+                                        </div>
+                                    </div>
+                                    <div className="olho">
+                                        <div className="bola">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h3>Jhonata Morais</h3>
+                        </div>
+                        <p>Serviço de qualidade e profissionalismo, gostei do atendimento e do custo benefício.</p>
+                        <p className='star'>★★★★★</p>
                     </article>
                 </section>
                 <section className='contato'>
                     <article className='informacoesContato'>
                         <h2>Contato</h2>
                         <div>
-                            <p>(91)99818-5808</p>
-                            <p>servicoexpresso@gmail.com</p>
+                            <p>Celular: (91)99818-5808</p>
+                            <p>Email: servicoexpresso@gmail.com</p>
                         </div>
                         <div>
-                            <address>Rua Décima Segunda, 41 - Anitta Gerosa, Ananindeua - PA, 67033-012</address>
+                            <address>Endereço: Rua Décima Segunda, 41 - Anitta Gerosa, Ananindeua - PA, 67033-012</address>
                         </div>
                     </article>
-                    <ul className='icones'>
-                        <li>
-                            whatsapp
-                        </li>
-                        <li>
-                            facebook
-                        </li>
-                        <li>
-                            login
-                        </li>
-                    </ul>
                 </section>
             </main>
             <footer className='pe'>
-
+                <ul className='icones'>
+                    <li>
+                        <a href='#' target='_blank'><img src='../../whatsapp.png' alt='Whatsapp' width={40}></img></a>
+                        <p>Whatsapp</p>
+                    </li>
+                    <li>
+                        <a href='#' target='_blank'><img src='../../facebook.png' alt='facebook' width={40}></img></a>
+                        <p>Facebook</p>
+                    </li>
+                    <li>
+                        <a href='#' target='_blank'><img src='../../login.png' alt='Entrar' width={40}></img></a>
+                        <p>Entrar</p>
+                    </li>
+                </ul>
             </footer>
         </div>
     )
